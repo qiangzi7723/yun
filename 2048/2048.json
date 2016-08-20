@@ -1,0 +1,109 @@
+{
+  "game":{
+    "bg": "#71c5cf",
+    "box_bg":"//24haowan-cdn.shanyougame.com/2048/assets/images/box_bg.png",
+    "2":"//24haowan-cdn.shanyougame.com/2048/assets/images/2.png",
+    "4":"//24haowan-cdn.shanyougame.com/2048/assets/images/4.png",
+    "8":"//24haowan-cdn.shanyougame.com/2048/assets/images/8.png",
+    "16":"//24haowan-cdn.shanyougame.com/2048/assets/images/16.png",
+    "32":"//24haowan-cdn.shanyougame.com/2048/assets/images/32.png",
+    "64":"//24haowan-cdn.shanyougame.com/2048/assets/images/64.png",
+    "128":"//24haowan-cdn.shanyougame.com/2048/assets/images/128.png",
+    "256":"//24haowan-cdn.shanyougame.com/2048/assets/images/256.png",
+    "512":"//24haowan-cdn.shanyougame.com/2048/assets/images/512.png",
+    "1024":"//24haowan-cdn.shanyougame.com/2048/assets/images/1024.png",
+    "2048":"//24haowan-cdn.shanyougame.com/2048/assets/images/2048.png",
+    "music_bgm": "//24haowan-cdn.shanyougame.com/2048/assets/audio/bgm.mp3",
+    "music_tap": "//24haowan-cdn.shanyougame.com/2048/assets/audio/tap_music.mp3",
+    "music_level": "//24haowan-cdn.shanyougame.com/2048/assets/audio/level_music.mp3"
+  },
+  "platform":{
+    "game":{
+      "bg":{"name":"活动页背景","url":"#71c5cf"},
+      "music_bgm": {"name": "背景音乐", "url": "//24haowan-cdn.shanyougame.com/2048/assets/audio/bgm.mp3"},
+      "music_tap": {"name": "滑动音效", "url": "//24haowan-cdn.shanyougame.com/2048/assets/audio/tap_music.mp3"},
+      "music_level":{"name":"升级音效", "url": "//24haowan-cdn.shanyougame.com/2048/assets/audio/level_music.mp3"},
+      "box_bg": {"name": "数字块的背景", "url": "//24haowan-cdn.shanyougame.com/2048/assets/images/box_bg.png"},
+      "2": {"name": "数字块2", "url": "//24haowan-cdn.shanyougame.com/2048/assets/images/2.png"},
+      "4": {"name": "数字块4", "url": "//24haowan-cdn.shanyougame.com/2048/assets/images/4.png"},
+      "8": {"name": "数字块8", "url": "//24haowan-cdn.shanyougame.com/2048/assets/images/8.png"},
+      "16": {"name": "数字块16", "url": "//24haowan-cdn.shanyougame.com/2048/assets/images/16.png"},
+      "32": {"name": "数字块32", "url": "//24haowan-cdn.shanyougame.com/2048/assets/images/32.png"},
+      "64": {"name": "数字块64", "url": "//24haowan-cdn.shanyougame.com/2048/assets/images/64.png"},
+      "128": {"name": "数字块128", "url": "//24haowan-cdn.shanyougame.com/2048/assets/images/128.png"},
+      "256": {"name": "数字块256", "url": "//24haowan-cdn.shanyougame.com/2048/assets/images/256.png"},
+      "512": {"name": "数字块512", "url": "//24haowan-cdn.shanyougame.com/2048/assets/images/512.png"},
+      "1024": {"name": "数字块1024", "url": "//24haowan-cdn.shanyougame.com/2048/assets/images/1024.png"},
+      "2048": {"name": "数字块2048", "url": "//24haowan-cdn.shanyougame.com/2048/assets/images/2048.png"}
+    }
+  },
+  "text":{
+    "game-title-text":"快打小强",
+    "brand-text":"",
+    "activity-text": "点击屏幕下方三个按钮中的一个，所在的区域就会伸出一只手掌去击打蟑螂，每击打一次即可得一分，要反应！也要速度！",
+    "prompt-text":"活动已结束",
+    "shareLabel":"邀请好友一起来玩吧~",
+    "gift-text":"",
+    "game-wechat-text":"我打死了{score}只小强，你能打多少只？",
+    "challenge":"我也挑战一下",
+    "game-rule-btn":"活动规则",
+    "share-btn":"分享给好友",
+    "rank-btn":"排行榜",
+    "start":"开始游戏",
+    "play-again-btn":"再玩一次"
+  },
+  "style":{
+    "loadingColor":"#fdffc6",
+    "loadingBanner":"//24haowan-cdn.shanyougame.com/new_platform/image/loadingBanner.png",
+    "barColor":"#1abc9c",
+    "action-time-label":"#333333",
+    "activity-text": "#333333",
+    "shareLabel": "#ffffff",
+    "receive-text":"#333333",
+    "prize-box-img":"//24haowan-cdn.shanyougame.com/new_platform/image/prize.svg",
+    "receive-box-img":"//24haowan-cdn.shanyougame.com/new_platform/image/prize.svg",
+    "share-text-color":"#333333",
+    "best-score-text":"#333333",
+    "score-text":"#333333",
+    "brand":{
+      "brand-text":"#ffffff",
+      "brand-icon":"//24haowan-cdn.shanyougame.com/new_platform/image/bottomIcon.png"
+    },
+    "rankLogo":"//24haowan-cdn.shanyougame.com/new_platform/image/rankTop.svg",
+    "game-title-color": "#333333",
+    "banner":{
+      "start-menu":"//24haowan-cdn.shanyougame.com/new_platform/image/center.png",
+      "game-over-menu":"//24haowan-cdn.shanyougame.com/new_platform/image/center.png",
+      "share-sign-in":"//24haowan-cdn.shanyougame.com/new_platform/image/center.png"
+    },
+    "background":{
+      "start-menu":"#adfff9",
+      "game-over-menu":"#adfff9",
+      "share-sign-in":"#adfff9"
+    },
+    "color":{
+      "main":"#1db494",
+      "deputy":"#ffb837",
+      "main-shadow":"#1aa98b",
+      "deputy-shadow":"#eb940b"
+    }
+  },
+  "message":{
+    "msg": {},
+    "share": {
+      "title-default":"万恶的小强！快来消灭它！",
+      "desc-default":"啊~~~赶紧把小强都消灭掉！",
+      "title":"我打死了{score}只小强，比杀虫剂还厉害！",
+      "desc":"啊~~~赶紧把小强都消灭掉！",
+      "pic":"//img-2.24haowan.shanyougame.com/24haowan_share_img/mosquito.png"
+    }
+  },
+  "mobileOnly":false,
+  "bottom-link": "http://24haowan.shanyougame.com/main/about1",
+  "bottom-show": true,
+  "bottom-link-set": true,
+  "activity-qrcode-show": false,
+  "activity-qrcode": "//24haowan-cdn.shanyougame.com/game_tpl/activity-qrcode.jpg",
+  "disable-rank": false,
+  "activity-gift-show": "yes"
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="yes" name="apple-touch-fullscreen"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="zepto.js"></script>
+</head>
+<body>
+<div id="btn" style="width:200px;height: 200px;background-color: red"></div>
+<script>
+    var timer = null;
+    var i = 0;
+    $("#btn").on("touch", function () {
+        if (!timer) {
+            timer = setInterval(function () {
+                i++;
+                console.log(i);
+//                setTimeout(arguments.callee,10)
+            }, 10);
+            setTimeout(function () {
+                clearInterval(timer)
+            }, 2000)
+        }
+    })
+
+</script>
+</body>
+</html>

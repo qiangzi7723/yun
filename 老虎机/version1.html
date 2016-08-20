@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="yes" name="apple-touch-fullscreen"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <meta charset="UTF-8">
+    <!--<script src="../zepto.js"></script>-->
+    <!--<script src="../jquery-3.1.0.js"></script>-->
+    <script src="../zepto.js"></script>
+    <style>
+        html,body{
+            margin: 0;
+        }
+
+        ul{
+            list-style: none;
+        }
+
+
+
+        .num-wrap{
+            position: relative;
+            width: 5.6rem;
+            height: 2.48rem;
+            margin: 100px auto;
+            overflow: hidden;
+
+        }
+
+        .num-row{
+            display: inline-block;
+            width: 33%;
+            position: absolute;
+        }
+
+        .num-unit{
+
+        }
+
+        .num {
+            height: 2.48rem;
+            background-position: center center;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+<div class="num-wrap">
+    <div class="num-row" id="row1">
+    </div>
+</div>
+
+
+<button id="btn">点击我</button>
+<script>
+
+    var width = document.body.clientWidth;
+    var clip = width / 10;
+    var html = document.getElementsByTagName("html")[0];
+    html.style.fontSize = clip + "px";
+
+    var btn = $("#btn");
+    var num_wrap=$(".num-wrap");
+    var num_row=$("#row1");
+    var num_unit=$("<div class='num-unit'></div>");
+
+    //组建unit单元组件
+    for(var i=4;i--;){
+        box=$("<div class='num'></div>");
+        box.css("background-image","url("+i+'.png'+")");
+        num_unit.append(box);
+    }
+
+    //克隆组件,并添加到num_row中
+    for(var i=0;i<100;i++){
+        var unit=num_unit.clone();
+        num_row.append(unit);
+    }
+
+    //根据组件的高度,设定位置
+    num_row.css("top",-num_row.height()+$(".num").height());
+
+    //添加二行和三行,分别是row2 row3
+    var row2=num_row.clone();
+    row2.attr("id","row2");
+    row2.css("left","33%");
+    num_wrap.append(row2);
+
+    var row3=num_row.clone();
+    row3.attr("id","row3");
+    row3.css("left","66%");
+    num_wrap.append(row3);
+
+    btn.on("tap",function () {
+//        $(".num-row").animate({"top":-num_row.height()+$(".num").height()*40},6000,"cubic-bezier(0.785, 0.135, 0.150, 1.08)")
+        $.each($(".num-row"),function (i) {
+            var _num=$(this)
+            setTimeout(function () {
+                _num.animate({"top":-num_row.height()+$(".num").height()*40},6000+1000*i,"cubic-bezier(0.785, 0.135, 0.150, 1.03)");
+            },500*i)
+        })
+    })
+
+
+
+
+
+
+</script>
+</body>
+</html>

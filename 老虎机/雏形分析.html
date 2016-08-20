@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .num_box{
+            height:132px;
+            width:400px;
+            position:absolute;
+            left:50%;
+            top:148px;
+            margin-left:-212px;
+            z-index:8;
+            overflow:hidden;
+            text-align:center;
+        }
+        .num{
+            background:url(http://pic.yupoo.com/reicky_v/D9C5Anbj/U83Vw.png) top center repeat-y;
+            width:90px;
+            height:132px;
+            float:left;
+            margin-right:6px;
+        }
+        #res {
+            position:absolute;
+            width: 377px;
+            height:139px;
+            background: url(http://pic.yupoo.com/reicky_v/D9C5ApuM/1101fJ.png) no-repeat;
+            top: 148px;
+            left:50%;
+            margin-left: -212px;
+        }
+        .cjBtn{
+            width:111px;
+            height:39px;
+            position:absolute;
+            top:320px;
+            left:50%;
+            margin-left: -55px;
+            margin: 0 auto;
+            cursor:pointer;
+            clear:both;
+        }
+        .cjBtn input {
+            border: none;
+            width:111px;
+            height:39px;
+            background: url(http://pic.yupoo.com/reicky_v/D9C7gX05/wiBgm.png) no-repeat;
+            cursor: pointer;
+        }
+    </style>
+    <script src="../jquery-1.72.js"></script>
+</head>
+<body>
+<div id="res"></div>
+<div class="num_box">
+    <div class="num"></div>
+    <div class="num"></div>
+    <div class="num"></div>
+    <div class="num"></div>
+</div>
+<div class="cjBtn">
+    <input type="submit" value="" id="cj"/>
+</div>
+<script>
+    function numRand() {
+        var x = 9999; //上限
+        var y = 1111; //下限
+        var rand = parseInt(Math.random() * (x - y + 1) + y);
+        return rand;
+    }
+
+    var isBegin = false;
+    $(function(){
+        var u = 133.3;
+        $('#cj').click(function(){
+            if(isBegin) return false;
+            isBegin = true;
+            $(".num").css('backgroundPositionY',0);
+            var result = numRand();
+            var num_arr = (result+'').split('');
+            $(".num").each(function(index){
+                var _num = $(this);
+                setTimeout(function(){
+                    _num.animate({
+                        backgroundPositionY: (u*60) - (u*num_arr[index])
+                    },{
+                        duration: 6000+index*3000,
+                        easing: "easeInOutCirc",
+                        complete: function(){
+                            if(index==3) isBegin = false;
+                        }
+                    });
+                }, index*300);
+            });
+        });
+    });
+</script>
+</body>
+</html>

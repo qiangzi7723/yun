@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="yes" name="apple-touch-fullscreen"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html, body, div {
+            margin: 0;
+        }
+
+        #q_contain {
+            height: 100%;
+            width: 3.75rem;
+            background-color: #c7e5ff;
+            position: absolute;
+            background: url("./assets/images/bg.png");
+            background-position: center center;
+            background-size: cover;
+        }
+
+        #q_result {
+            height: 100%;
+            width: 3.75rem;
+            background-color: #7a98e3;
+            position: absolute;
+            background: url("./assets/images/bg.png");
+            background-position: center center;
+            background-size: cover;
+        }
+
+        #q_contain .title{
+            height: 1.3rem;
+            padding-left: 0.2rem;
+            margin-bottom: 0.1rem;
+        }
+
+        #q_contain .role{
+            float: left;
+            width:0.7rem;
+            height: 100%;
+            background-image: url("./assets/images/role.png");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+
+        #q_contain .question{
+            float: left;
+            width: 2.7rem;
+            height: 100%;
+            background-image: url("./assets/images/p1.png");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+
+        #q_contain .q {
+            width: 80%;
+            color: #3d5178;
+            font-size: 0.2rem;
+            text-align: center;
+            margin: 0.5rem auto 0;
+        }
+
+        #q_contain ul {
+            overflow: hidden;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            margin-top: 0.3rem;
+        }
+
+        #q_contain li {
+            height: 0.44rem;
+            width: 2.8rem;
+            margin: 0 auto 0.16rem;
+            font-size: 0.14rem;
+            background-image: url("./assets/images/A.png");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center center;
+            color: #274d99;
+            line-height: 0.44rem;
+            text-align: left;
+            text-indent: 0.5rem;
+        }
+
+
+        
+
+        #q_contain .img{
+            width: 2.8rem;
+            height: 1.5rem;
+            margin:auto;
+            background-image: url("./assets/images/bg01.png");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+
+       
+        #q_result_wrap{
+            padding: 0 0.2rem;
+            margin-top: 0.2rem;
+            overflow: hidden;
+        }
+
+        #q_result_h{
+            margin: 0;
+            font-size: 0.26rem;
+            color:#FFFF80;
+            text-align: left;
+            float: left;
+            width: 2.3rem;
+            margin-top: 0.1rem;
+            margin-left: 0.1rem;
+            line-height: 0.34rem;
+            letter-spacing: 0.01rem;
+            font-weight: bold;
+        }
+
+        #q_result_t{
+            color: #fff;
+            text-align:left;
+            font-size: 0.18rem;
+            clear: both;
+            padding: 0 0.3rem;
+            margin-top: 0.2rem;
+            line-height: 0.26rem;
+            letter-spacing: 0.01rem;
+
+
+        }
+
+        #q_result_img{
+            float: left;
+            width: 0.8rem;
+            height: 1.2rem;
+            background-image: url("//24haowan-cdn.shanyougame.com/nanshen/assets/images/role2.png");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+
+    </style>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<!--使用VUE进行数据绑定,同时构建简单的单页面应用-->
+<div id="game_div">
+    <div id="q_contain" :style="{display:show}">
+        <!--题目的数据绑定-->
+        <div class="title">
+            <div class="role"></div>
+            <div class="question">
+                <h3 class="q">{{index}}、{{obj.question}}</h3>
+            </div>
+        </div>
+        <div class="img"></div>
+        <ul v-on:touchend="select" v-on:touchend="changeImg">
+            <!--通过v-for循环数据中的items数组,遍历输出问题答案,并且通过v-on:绑定事件-->
+            <!--i是索引,而item相当于items[i]-->
+            <li v-for="(i,item) in obj.answer" v-on:touchstart="changeColor" jump="{{item.jump}}" style="background-image: url('./assets/images/A{{i+1}}.png')">
+                <!--输出答案序号--><!--输出答案内容-->
+                {{["A","B","C","D","E"][i]}}.{{item.text}}
+            </li>
+        </ul>
+    </div>
+    <div id="q_result" :style="{display:show}">
+
+        <div id="q_result_wrap">
+            <div id="q_result_img"></div>
+            <h3 id="q_result_h">你与男神约会仅差一步</h3>
+        </div>    
+        <p id="q_result_t">{{obj.text}}</p>
+    </div>
+</div>
+
+
+<script src="../zepto.js"></script>
+<script src="../vue.js"></script>
+<!--<script src="main.js"></script>-->
+<script>
+
+    //适配平台rem设置
+    var container_width = 300;
+    function changeHTML() {
+        var width = window.innerWidth;
+        if (width > 700) {
+            container_width = window.innerWidth*0.234;
+            container_width = (container_width < 300) ? 300 : container_width;
+            var size = container_width*100/375;
+        } else {
+            var size = width*100/375;
+        }
+        document.querySelector('html').style.fontSize = size+'px';
+    }
+    changeHTML();
+
+
+    config = [{
+        index: "1",
+        question: "你最想去哪里旅行？",
+        answer: [{text: "历史文化名城北京", jump: "2"}, {text: "充满浪漫调调的巴黎", jump: "4"}, {text: "樱花树下的东京", jump: "3"},{text: "历史文化名城北京", jump: "2"}]
+    }, {
+        index: "2",
+        question: "你看催泪感人电影时会..",
+        answer: [{text: "黄河缺提，一发不可收拾", jump: "4"}, {text: "睡成猪", jump: "3"}]
+    }, {
+        index: "3",
+        question: "你男朋友约会迟到时，你会..",
+        answer: [{text: "等到天荒地老，不见不散", jump: "6"}, {text: "老娘再给你3分钟好了", jump: "4"}, {
+            text: "我艹！敢迟到！立马滴滴打车回家",
+            jump: "5"
+        }]
+    }, {
+        index: "4",
+        question: "去电影院你是..",
+        answer: [{text: "喜欢一个人抱着个爆谷去", jump: "5"}, {text: "喜欢热热闹闹结伴同行", jump: "6"}]
+    }, {
+        index: "5",
+        question: "你男朋友第一次拍拖时候想吻你，你会..",
+        answer: [{text: "坚守阵线，拒绝！", jump: "6"}, {text: "欣然接受", jump: "8"}, {text: "轻吻他脸庞", jump: "7"}]
+    }, {
+        index: "6",
+        question: "你说笑话的时候，通常别人会..",
+        answer: [{text: "抱着肚子狂笑", jump: "7"}, {text: "用鄙视的眼神回敬你", jump: "8"}]
+    }, {
+        index: "7",
+        question: "假如你是BOSS，你觉得你是称职的吗..",
+        answer: [{text: "称职", jump: "9"}, {text: "不称职", jump: "10"}]
+    }, {
+        index: "8",
+        question: "给你一个重新选择性别的机会，你会..",
+        answer: [{text: "当个充满男子气概的帅哥", jump: "9"}, {text: "当个充满气质魅力的美女", jump: "10"}, {
+            text: "i don’t care，姐就是那么任性",
+            jump: "D"
+        }]
+    }, {index: "9", question: "你试过一脚踏两船吗？", answer: [{text: "是的", jump: "A"}, {text: "没有", jump: "B"}]}, {
+        index: "10",
+        question: "你觉得你自己是..",
+        answer: [{text: "女神", jump: "B"}, {text: "女神经", jump: "C"}]
+    }];
+
+    result = {
+        A: {star: "★★★★★", text: "充满女性美的你只差一点点就可以跟男神缠绵了！追甘素源帮你充充电，将你的气质魅力冲破表！实现你的男神梦！"},
+        B: {star: "★★★", text: "你跟男神擦肩而过了！以你如此优质的条件，太可惜了！追甘素源提升你的气质魅力，帮你把男神追回来吧！"},
+        C: {star: "★★", text: "今晚你被男神翻牌的机会有点小哦！改天吧！机会还是有的。提升个人气质魅力才有机会睡到优质男哦！关注自己生活点滴，从善待自己做起，我在追甘素源等你！"},
+        D: {star: "★", text: "亲爱的，你离男神有300英里...不要气馁！坐个飞机也就两小时路程！甜美善良的你潜力还很大！在追甘素源里面有不外传的提升女性魅力秘籍，绝对可以将你的女性魅力引擎全开！！"}
+    };
+
+    var vm = new Vue({
+        el: "#q_contain",
+        //此处写入数据
+        data: {
+            show: "block",
+            obj: config[0],
+            index:1
+        },
+        //此处封装方法
+        methods: {
+            changeColor: function (e) {
+                if (e.target.nodeName.toUpperCase() == "LI") {
+                    var oLi = e.target;
+                } else {
+                    oLi = e.target.parentNode;
+                }
+                if (oLi.nodeName.toUpperCase() == "LI") {
+                    // oLi.getElementsByClassName("answerText")[0].style.backgroundColor = "rgb(91,118,142)";
+                }
+            },
+            select: function (e) {
+                if (e.target.nodeName.toUpperCase() == "LI") {
+                    var oLi = e.target;
+                } else {
+                    oLi = e.target.parentNode;
+                }
+                if (oLi.nodeName.toUpperCase() == "LI") {
+                    var jump = oLi.getAttribute("jump");
+                    if (!isNaN(jump)) {
+                        //说明为数字
+                        vm.index++;
+                        vm.obj=config[jump - 1];
+                    } else {
+                        //说明不是数字,那么应该跳往结束页面
+                        vm2.obj=result[jump];
+                        vm2.show="block";
+                        vm.show="none";
+                    }
+                }
+            },
+            
+        }
+    });
+
+    var vm2 = new Vue({
+        el: "#q_result",
+        data: {
+            show: "none",
+            obj:result.A
+        },
+        methods: {}
+    })
+
+</script>
+</body>
+</html>
