@@ -8,8 +8,9 @@
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta charset="UTF-8">
     <title>看图猜谜</title>
-    <script src="../vue.js"></script>
-    <script src="../zepto.js"></script>
+    <link rel="stylesheet" href="../css/guess.css">
+    <link rel="stylesheet" href="../t/animate.min.css">
+    <script src="../t/zepto.js"></script>
     <script>
     //修改fontSize
     var container_width = 300;
@@ -27,147 +28,255 @@
     }
     changeHTML();
     </script>
-    <style>
-    html,
-    body {
-        height: 100%;
-        margin: 0;
-    }
-    
-    #game_div {
-        height: 100%;
-        background-image: url("./assets/images/bg.png");
-        background-position: center center;
-        background-size: cover;
-        background-repeat: no-repeat;
-    }
-    
-    #top {
-        height: 0.7rem;
-    }
-    
-    #screen {
-        height: 2.6rem;
-        background-image: url("./assets/images/tv.png");
-        background-position: center center;
-        background-size: contain;
-        background-repeat: no-repeat;
-    }
-    
-    #board {
-        width: 100%;
-        height: 1.7rem;
-        position: absolute;
-        bottom: 0;
-        box-sizing: border-box;
-        padding: 0.3rem 0.2rem 0;
-        text-align: center;
-        line-height: 0;
-    }
-    
-    #box {
-        width: 0.38rem;
-        height: 0.38rem;
-        display: inline-block;
-        box-sizing: border-box;
-        margin-right: 0.04rem;
-        background-image: url("./assets/images/box_bg.png");
-        background-position: center center;
-        background-size: contain;
-        background-repeat: no-repeat;
-        line-height: 0.38rem;
-        font-size: 0.3rem;
-        text-align: center;
-        color: #1f72bf;
-    }
-    
-    #box:nth-of-type(8n) {
-        margin-right: 0;
-    }
-    
-    #answer_wrap {
-        width: 100%;
-        height: 0.6rem;
-        margin-top: 0.4rem;
-        text-align: center;
-        line-height: 0;
-    }
-    
-    #answer {
-        display: inline-block;
-        width: 0.45rem;
-        height: 0.45rem;
-        line-height: 0.45rem;
-        color: #fff;
-        font-size: 0.4rem;
-        margin-right: 0.05rem;
-        background-image: url("./assets/images/answer_box.png");
-        background-position: center center;
-        background-size: contain;
-        background-repeat: no-repeat;
-    }
-    
-    #level {
-        height: 0.3rem;
-        padding: 0 0.3rem;
-        padding-top: 0.1rem;
-        margin-bottom: 0.3rem;
-        text-align: center;
-        /*font-size不能去掉*/
-        font-size: 0;
-    }
-    
-    #circle {
-        display: inline-block;
-        width: 0.2rem;
-        height: 0.2rem;
-        border-radius: 0.2rem;
-        line-height: 0.2rem;
-        background-color: #fff;
-        color: #5d748a;
-        font-size: 0.15rem;
-        margin-right: 0.1rem;
-        text-align: center;
-    }
-    /*在circle后面加一个伪类，写横线*/
-    </style>
 </head>
 
 <body>
     <div id="game_div">
-        <div id="level">
+        <div id="qz_level">
             <!--<div id="circle"></div>-->
         </div>
-        <div id="screen">
-            <div></div>
+        <div id="qz_timer"></div>
+        <div id="qz_screen">
+            <div id="qz_content"></div>
         </div>
-        <div id="answer_wrap">
+        <div id="qz_answer_wrap">
             <!--<div id="answer"></div>-->
         </div>
-        <div id="board">
+        <div id="qz_board">
             <!--<div id="box"></div>-->
         </div>
     </div>
     <script>
-    //动态生成board下面的文字块
-    for (var i = 0; i < 24; i++) {
+    var str = ['日', '山', '东', '龙', '索', '尼', '雪', '碧', '肯', '德',
 
-        if (i % 8 == 0 && i != 0) {
-            $("#board").append("<br><div id='box'>字</div>")
-        } else {
-            $("#board").append("<div id='box'>字</div>")
+        '基', '兰', '博', '基', '尼', '白', '兰', '地', '度', '威',
+
+        '士', '忌', '微', '软', '环', '绕', '路', '易', '威', '登',
+
+        '阿', '玛', '尼', '联', '合', '利', '华', '虎', '奥', '迪',
+
+        '爱', '马', '仕', '卡', '地', '亚', '宝', '丽', '莱', '丰',
+
+        '田', '日', '产', '风', '的', '腾', '讯', '玛', '莎', '拉',
+
+        '蒂', '威', '阿', '里', '巴', '百', '华', '为', '海', '尔',
+
+        '香', '槟', '地', '方', '芝', '科', '美', '松', '下', '西',
+
+        '欧', '翡', '翠', '纽', '曼', '金', '士', '顿', '福', '特',
+
+        '瑞', '秀', '冈', '本', '雅', '诗', '兰', '黛', '玉', '兰'
+    ]
+
+    var config = [{
+        "name": "法",
+        "url": "assets/images/法拉利.png"
+    }, {
+        "name": "马",
+        "url": "assets/images/宝马.png"
+    }, {
+        "name": "可乐",
+        "url": "assets/images/可口可乐.png"
+    }, ]
+
+    //总关卡索引
+    var T_index = 0;
+
+    var index = 0;
+    var before = 0;
+
+
+    //辅助函数，随机在min和max中生成n个不重复的数
+    function my_ran2(n, min, max) {
+        var arr = [];
+        for (i = 0; i < n; i++) {
+            arr[i] = parseInt(Math.random() * (max - min + 1) + min);
+            for (j = 0; j < i; j++) {
+                if (arr[i] == arr[j]) {
+                    i = i - 1;
+                    break;
+                }
+            }
         }
-    };
+        return arr;
+    }
 
-    //动态生成答案
-    for (var i = 0; i < 4; i++) {
-        $("#answer_wrap").append("<div id='answer'>东</div>")
-    };
 
-    //动态生成上方的关卡进度
-    for (var i = 0; i < 10; i++) {
-        $("#level").append("<div id='circle'>" + (i + 1) + "</div>")
-    };
+
+
+    var Guess = function() {
+        this.init()
+    }
+    Guess.prototype = {
+
+        init: function() {
+            this.initHtml();
+            this.bindEvents();
+        },
+        // 绑定事件
+        bindEvents: function() {
+            // 给board下面的字绑定事件
+            $("#game_div .qz_box").on("tap", function() {
+
+                var txt = $(this).text();
+                $($("#game_div .qz_answer")[index]).text(txt);
+                $($("#game_div .qz_answer")[index]).attr("x", $(this).index());
+                index++;
+                $(this).text("")
+
+            })
+
+            // 添加修改事件
+            $("#game_div .qz_answer").on("tap", function() {
+                var i = $(this).index();
+                var x = $(this).attr("x");
+                var txt = $(this).text();
+                $($("#game_div .qz_box")[x]).text(txt);
+                $(this).text("");
+                $(this).attr("x", "")
+                before = index;
+                index = i;
+
+            })
+
+            // 添加是否通过当前关卡判断
+            $("#game_div .qz_box").on("tap", function() {
+                var dom_answer = $("#game_div .qz_answer");
+                var result = "";
+                dom_answer.forEach(function(v, i) {
+                    result += $(v).text()
+                })
+
+                if (result.length == config[T_index].name.length) {
+                    // 长度相等说明已经全部输入完毕
+                    if (result == config[T_index].name) {
+                        T_index++;
+                        guess.good();
+                        setTimeout(guess.nextLevel,1000);
+                    } else {
+                        guess.wrong();
+                    }
+                }
+
+
+            })
+        },
+        // 初始化模版
+        initHtml: function() {
+
+            // 生成随机字数组
+            var arr = my_ran2(24, 0, 99);
+            // 生成答案覆盖索引数组
+            var yep = my_ran2(config[T_index].name.length, 0, 23);
+            var name = config[T_index].name;
+
+            //动态生成board下面的文字块以及随机文字
+            for (var i = 0; i < 24; i++) {
+                $("#game_div #qz_board").append("<div class='qz_box'>" + str[arr[i]] + "</div>")
+            };
+
+            // 正确答案覆盖原文字
+            for (var i = 0, len = yep.length; i < len; i++) {
+                var y = yep[i];
+                var v = name[i];
+                $($("#game_div .qz_box")[y]).text(v);
+            }
+
+            //动态生成答案块
+            for (var i = 0; i < name.length; i++) {
+                $("#game_div #qz_answer_wrap").append("<div class='qz_answer'></div>")
+            };
+
+            //动态生成上方的关卡进度
+            for (var i = 0; i < 10; i++) {
+                $("#game_div #qz_level").append("<div class='qz_circle'>" + (i + 1) + "</div>")
+            };
+
+            //高亮第一关
+            $($("#game_div .qz_circle")[T_index]).addClass("qz_hover");
+
+            //图片初始化
+            $("#qz_content").css("background-image", "url(" + config[T_index].url + ")");
+        },
+        //错误
+        wrong: function() {
+            $("#game_div #qz_answer_wrap").addClass("animated bounce");
+
+            // $("#game_div .qz_answer").css("color","red");
+            //删除动画
+            setTimeout(function() {
+                $("#game_div #qz_answer_wrap").removeClass("animated bounce");
+                $("#game_div .qz_answer").forEach(function(v) {
+                    var x = $(v).attr("x");
+                    var txt = $(v).text();
+                    $($("#game_div .qz_box")[x]).text(txt);
+                    $(v).text("");
+                    $(v).attr("x", "");
+                    index=0
+                })
+            }, 1000);
+        },
+        // 通关动画
+        good:function(){
+
+        },
+        // 通关后渲染下一关卡数据
+        nextLevel: function() {
+            // 生成随机字数组
+            var arr = my_ran2(24, 0, 99);
+            var name = config[T_index].name;
+            // 生成答案覆盖索引数组
+            var yep = my_ran2(name.length, 0, 23);
+
+            index = 0;
+            before = 0;
+
+            //图片处理
+            $("#qz_content").css("background-image", "url(" + config[T_index].url + ")");
+
+
+            //答案块长度处理
+            $("#game_div #qz_answer_wrap").children().remove();
+            for (var i = 0; i < name.length; i++) {
+                $("#game_div #qz_answer_wrap").append("<div class='qz_answer'></div>")
+            };
+
+            // 添加修改事件
+            $("#game_div .qz_answer").on("tap", function() {
+                var i = $(this).index();
+                var x = $(this).attr("x");
+                var txt = $(this).text();
+                $($("#game_div .qz_box")[x]).text(txt);
+                $(this).text("");
+                $(this).attr("x", "")
+                before = index;
+                index = i;
+
+            })
+
+
+            // 选择区处理
+            $("#game_div .qz_box").forEach(function(v, i) {
+                $(v).text(str[arr[i]]);
+            })
+            for (var i = 0, len = name.length; i < len; i++) {
+                var y = yep[i];
+                var v = name[i];
+                $($("#game_div .qz_box")[y]).text(v);
+            }
+
+            //关卡高亮
+            $("#game_div .qz_circle").removeClass("qz_hover");
+            $($("#game_div .qz_circle")[T_index]).addClass("qz_hover");
+
+        }
+
+
+    }
+
+
+
+    var guess = new Guess();
     </script>
 </body>
 

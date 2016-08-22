@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="yes" name="apple-touch-fullscreen" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta charset="UTF-8">
+    <title>看图猜谜</title>
+    <link rel="stylesheet" href="../css/guess.css">
+    <script src="../t/zepto.js"></script>
+    <script>
+    //修改fontSize
+    var container_width = 300;
+
+    function changeHTML() {
+        var width = window.innerWidth;
+        if (width > 700) {
+            container_width = window.innerWidth * 0.234;
+            container_width = (container_width < 300) ? 300 : container_width;
+            var size = container_width * 100 / 375;
+        } else {
+            var size = width * 100 / 375;
+        }
+        document.querySelector('html').style.fontSize = size + 'px';
+    }
+    changeHTML();
+    </script>
+</head>
+
+<body>
+    <div id="game_div">
+        <div id="qz_level">
+            <!--<div id="circle"></div>-->
+        </div>
+        <div id="qz_screen">
+            <div></div>
+        </div>
+        <div id="qz_answer_wrap">
+            <!--<div id="answer"></div>-->
+        </div>
+        <div id="qz_board">
+            <!--<div id="box"></div>-->
+        </div>
+    </div>
+    <script>
+    var str = ['日', '山', '东', '龙', '索', '尼', '雪', '碧', '肯', '德',
+
+        '基', '兰', '博', '基', '尼', '白', '兰', '地', '度', '威',
+
+        '士', '忌', '微', '软', '环', '绕', '路', '易', '威', '登',
+
+        '阿', '玛', '尼', '联', '合', '利', '华', '虎', '奥', '迪',
+
+        '爱', '马', '仕', '卡', '地', '亚', '宝', '丽', '莱', '丰',
+
+        '田', '日', '产', '风', '的', '腾', '讯', '玛', '莎', '拉',
+
+        '蒂', '威', '阿', '里', '巴', '百', '华', '为', '海', '尔',
+
+        '香', '槟', '地', '方', '芝', '科', '美', '松', '下', '西',
+
+        '欧', '翡', '翠', '纽', '曼', '金', '士', '顿', '福', '特',
+
+        '瑞', '秀', '冈', '本', '雅', '诗', '兰', '黛', '玉', '兰'
+    ]
+
+    //动态生成board下面的文字块
+    for (var i = 0; i < 24; i++) {
+
+        if (i % 8 == 0 && i != 0) {
+            $("#game_div #qz_board").append("<div class='qz_box'>" + str[i] + "</div>")
+        } else {
+            $("#game_div #qz_board").append("<div class='qz_box'>" + str[i] + "</div>")
+        }
+    };
+
+    //动态生成答案
+    for (var i = 0; i < 4; i++) {
+        $("#game_div #qz_answer_wrap").append("<div id='qz_answer'></div>")
+    };
+
+    //动态生成上方的关卡进度
+    for (var i = 0; i < 10; i++) {
+        $("#game_div #qz_level").append("<div id='qz_circle'>" + (i + 1) + "</div>")
+    };
+
+    // 给board下面的字绑定事件
+    $(".qz_box").on("tap", function() {
+        console.log($(this).text());
+    })
+
+    </script>
+</body>
+
+</html>

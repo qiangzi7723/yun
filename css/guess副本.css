@@ -1,0 +1,85 @@
+@charset "UTF-8";
+html,
+body {
+  height: 100%;
+  margin: 0; }
+
+#game_div {
+  height: 100%;
+  background-image: url("../看图猜谜/assets/images/bg1.png");
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  /*在circle后面加一个伪类，写横线*/ }
+  #game_div #top {
+    height: 0.7rem; }
+  #game_div #qz_screen {
+    height: 2.2rem;
+    background-image: url("../看图猜谜/assets/images/tv1.png");
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat; }
+  #game_div #qz_answer_wrap {
+    width: 100%;
+    height: 0.6rem;
+    margin-top: 0.2rem;
+    text-align: center;
+    line-height: 0; }
+  #game_div #qz_answer {
+    display: inline-block;
+    width: 0.45rem;
+    height: 0.45rem;
+    line-height: 0.45rem;
+    color: #fff;
+    font-size: 0.4rem;
+    margin-right: 0.05rem;
+    background-image: url("../看图猜谜/assets/images/answer_box.png");
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat; }
+  #game_div #qz_board {
+    width: 100%;
+    height: 1.7rem;
+    margin-top: 0.2rem;
+    position: absolute;
+    bottom: 0;
+    box-sizing: border-box;
+    padding: 0.3rem 0.2rem 0;
+    text-align: center;
+    line-height: 0;
+    margin-bottom: 0.2rem; }
+  #game_div .qz_box {
+    width: 0.38rem;
+    height: 0.38rem;
+    display: inline-block;
+    box-sizing: border-box;
+    margin-right: 0.04rem;
+    background-image: url("../看图猜谜/assets/images/box_bg.png");
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    line-height: 0.38rem;
+    font-size: 0.3rem;
+    text-align: center;
+    color: #1f72bf; }
+  #game_div .qz_box:nth-of-type(8n) {
+    margin-right: 0; }
+  #game_div #qz_level {
+    height: 0.3rem;
+    padding: 0 0.3rem;
+    padding-top: 0.1rem;
+    margin-bottom: 0.3rem;
+    text-align: center;
+    /*font-size不能去掉*/
+    font-size: 0; }
+  #game_div #qz_circle {
+    display: inline-block;
+    width: 0.2rem;
+    height: 0.2rem;
+    border-radius: 0.2rem;
+    line-height: 0.2rem;
+    background-color: #fff;
+    color: #5d748a;
+    font-size: 0.15rem;
+    margin-right: 0.1rem;
+    text-align: center; }
