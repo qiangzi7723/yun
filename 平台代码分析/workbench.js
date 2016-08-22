@@ -337,8 +337,10 @@ WorkBench.prototype = {
 			// 显示对应的预览界面
 			this.hidePreview();
 			if (this.currentPage == "basic") {
+				// 1对应的是游戏的开始页面，这个页面在基本信息和开视页都共用
 				$("#preview-custom-1").removeClass("hidden");
 			} else if (this.currentPage == "assets") { // 资源替换
+				//通过split数组切割得到id后面的索引	assets-nav-0
 				var assets_page = $(obj).attr("id").split("assets-nav-")[1];
 				this.assetsCustom.currentPage = assets_page;
 				this.assetsCustom.togglePanel(assets_page);
@@ -346,6 +348,8 @@ WorkBench.prototype = {
 			} else if (this.currentPage == "share") { // 分享设置
 				$("#preview-wechat").removeClass("hidden");
 			} else if (this.currentPage == "gameinfo") { // 营销设置
+				//结束页和营销设置共用3，或者说，营销设置的左侧预览区域，内嵌在结束页。当跳到营销设置时，显示3，
+				//同时显示营销设置对应的内容
 				$("#preview-custom-3").removeClass("hidden");
 				// $("#receive-mask").removeClass("hidden");
 				$(".giftcenter-container-single").removeClass("hidden");
@@ -354,6 +358,11 @@ WorkBench.prototype = {
 	},
 
 	// 隐藏所有页面
+	// 这里的所有页面指的是右侧的配置区域
+	// 页面结构分为header和page上下两个部分
+	// 其中page又可以分为左右区域，分别是手机预览，以及右侧配置区域
+	// 所以当我们在上方点击切换，即切换TAB时，要做两个切换，分别是左侧和右侧切换
+	// 这里的hideAll就是切换右侧
 	hideAll: function() {
 		$("#basic-container").addClass("hidden");
 		$("#assets-container").addClass("hidden");
@@ -370,6 +379,7 @@ WorkBench.prototype = {
 		$("#shareMask").addClass("hidden");
 		$("#form-mask").addClass("hidden");
 		// $("#receive-mask").addClass("hidden");
+		// 隐藏营销设置的左侧预览，该区域内嵌在	.preview-custom-container3
 		$(".giftcenter-container-single").addClass("hidden");
 		$("#preview-wechat").addClass("hidden");
 	},
@@ -2063,6 +2073,7 @@ GameInfoCustom.prototype = {
 		if (toggleTag) {
 			var isHidden = $(targetObj).find(".custom-info-detail").hasClass("hidden");
 			// 显示相应面板
+			// 营销信息的替换
 			$("#gameinfo-container").find(".custom-info-detail").addClass("hidden");
 			$("#gameinfo-container").find(".custom-info-block").removeClass("active");
 			$("#gameinfo-container").find(".title .note").addClass("hidden");

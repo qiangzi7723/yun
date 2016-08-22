@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="t/zepto.js"></script>
+	<style>
+		#workbench{
+			width: 600px;
+			height: 600px;
+			background-color: #ccc;
+			text-align: center;
+		}
+		#basiccustom{
+			width: 200px;
+			height: 200px;
+			background-color: red;
+			display: inline-block;
+		}
+		#assetscustom{
+			width: 200px;
+			height: 200px;
+			background-color: green;
+			display: inline-block;
+		}
+	</style>
+</head>
+<body>
+	<div id="workbench">workbench
+		<div id="basiccustom">basiccustom</div>
+		<div id="assetscustom">assetscustom</div>
+	</div>
+	<script>
+
+		// 根模块
+		var WorkBench=function(){
+			//初始化自身的绑定事件
+			this.bindEvents();
+			// 初始化其他模块
+			new Basiccustom();
+			new Assetscustom();
+		}
+		WorkBench.prototype={
+			bindEvents:function(){
+				$("#workbench").on("click",function(){
+					console.log("workbench");
+				})
+			}
+		}
+
+		//其他模块 
+		var Basiccustom=function(){
+			this.bindEvents();
+		}
+		Basiccustom.prototype={
+			bindEvents:function(){
+				$("#basiccustom").on("click",function(){
+					console.log("basiccustom");
+				})
+			}
+		}
+
+		var Assetscustom=function(){
+			this.bindEvents();
+		}
+		Assetscustom.prototype={
+			bindEvents:function(){
+				$("#assetscustom").on("click",function(){
+					console.log("assetscustom");
+				})
+			}
+		}
+
+		//初始化根模块
+		new WorkBench();
+	</script>
+</body>
+</html>
