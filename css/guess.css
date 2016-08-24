@@ -10,27 +10,25 @@ body {
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat; }
-  #game_div #top {
-    height: 0.7rem; }
-  #game_div #qz_screen {
-    height: 2.2rem;
+  #game_div .qz_screen {
+    height: 2.6rem;
     background-image: url("../看图猜谜/assets/images/tv1.png");
     background-position: center center;
     background-size: contain;
     background-repeat: no-repeat;
     position: relative; }
-  #game_div #qz_content {
+  #game_div .qz_content {
     background-color: #fff;
-    height: 1.45rem;
-    width: 1.85rem;
+    height: 1.7rem;
+    width: 2.2rem;
     border-radius: 0.18rem;
     position: absolute;
-    left: 0.81rem;
-    top: 0.5rem;
+    left: 0.61rem;
+    top: 0.6rem;
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat; }
-  #game_div #qz_answer_wrap {
+  #game_div .qz_answer_wrap {
     width: 100%;
     height: 0.45rem;
     margin-top: 0.2rem;
@@ -49,17 +47,15 @@ body {
     background-position: center center;
     background-size: contain;
     background-repeat: no-repeat; }
-  #game_div #qz_board {
-    width: 100%;
+  #game_div .qz_board {
+    width: 3.75rem;
     height: 1.7rem;
-    margin-top: 0.2rem;
     position: absolute;
-    bottom: 0;
+    bottom: 0.6rem;
     box-sizing: border-box;
     padding: 0.3rem 0.2rem 0;
     text-align: center;
-    line-height: 0;
-    margin-bottom: 0.2rem; }
+    line-height: 0; }
   #game_div .qz_box {
     width: 0.38rem;
     height: 0.38rem;
@@ -80,13 +76,29 @@ body {
   #game_div #qz_level {
     height: 0.3rem;
     padding: 0 0.3rem;
-    padding-top: 0.1rem;
+    padding-top: 0.15rem;
     text-align: center;
     /*font-size不能去掉*/
     font-size: 0; }
-  #game_div #qz_timer {
-    height: 0.3rem;
-    padding: 0 0.3rem; }
+  #game_div .qz_timer {
+    height: 0.15rem;
+    padding: 0 0.3rem;
+    box-sizing: border-box;
+    margin-bottom: 0.1rem; }
+  #game_div .qz_time {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    border-radius: 0.08rem;
+    box-sizing: border-box;
+    padding: 0.04rem; }
+  #game_div .qz_progress {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 0.08rem;
+    background-color: #5d748a;
+    transition: width 12s linear; }
   #game_div .qz_circle {
     display: inline-block;
     width: 0.2rem;
@@ -113,3 +125,10 @@ body {
   #game_div .qz_hover {
     background-color: #3f5a75;
     color: #fff; }
+  #game_div #qz_wrap {
+    height: 100%;
+    transition: all 0.5s ease-in-out;
+    transform: translateX(0); }
+  #game_div .qz_item {
+    width: 3.75rem;
+    float: left; }

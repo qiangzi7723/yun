@@ -5,39 +5,34 @@ body {
 }
 
 #game_div {
+    font-family: "Helvetica";
     height: 100%;
     background-image: url("../看图猜谜/assets/images/bg2.png");
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
-    #top {
-        height: 0.7rem;
-    }
-    #qz_screen {
-        height: 2.2rem;
+    .qz_screen {
+        height: 2.6rem;
         background-image: url("../看图猜谜/assets/images/tv1.png");
         background-position: center center;
         background-size: contain;
         background-repeat: no-repeat;
         position: relative;
     }
-    #qz_content{
+    .qz_content {
         background-color: #fff;
         // opacity: 0.5;
-
-        height: 1.45rem;
-        width:1.85rem;
+        height: 1.7rem;
+        width: 2.2rem;
         border-radius: 0.18rem;
-
         position: absolute;
-        left: 0.81rem;
-        top:0.5rem;
-
+        left: 0.61rem;
+        top: 0.6rem;
         background-position: center center;
         background-size: cover;
         background-repeat: no-repeat;
     }
-    #qz_answer_wrap {
+    .qz_answer_wrap {
         width: 100%;
         height: 0.45rem;
         margin-top: 0.2rem;
@@ -58,18 +53,18 @@ body {
         background-size: contain;
         background-repeat: no-repeat;
     }
-    #qz_board {
-        width: 100%;
+    .qz_board {
+        width: 3.75rem;
         height: 1.7rem;
-        margin-top: 0.2rem;
+        // margin-top: 0.2rem;
         position: absolute;
-        bottom: 0;
+        bottom: 0.6rem;
         box-sizing: border-box;
         padding: 0.3rem 0.2rem 0;
         // padding: 0 0.2rem;
         text-align: center;
         line-height: 0;
-        margin-bottom: 0.2rem;
+        // margin-bottom: 0.2rem;
     }
     .qz_box {
         width: 0.38rem;
@@ -84,7 +79,7 @@ body {
         background-size: contain;
         background-repeat: no-repeat;
         line-height: 0.38rem;
-        font-size: 0.3rem;
+        font-size: 0.29rem;
         text-align: center;
         color: #1f72bf;
     }
@@ -94,16 +89,33 @@ body {
     #qz_level {
         height: 0.3rem;
         padding: 0 0.3rem;
-        padding-top: 0.1rem;
+        padding-top: 0.15rem;
         text-align: center;
         /*font-size不能去掉*/
         font-size: 0;
     }
-    #qz_timer{
-        height: 0.3rem;
+    .qz_timer {
+        height: 0.15rem;
         padding: 0 0.3rem;
+        box-sizing: border-box;
+        margin-bottom: 0.1rem;
     }
-
+    .qz_time {
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        border-radius: 0.08rem;
+        box-sizing: border-box;
+        padding: 0.04rem;
+    }
+    .qz_progress {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-radius: 0.08rem;
+        background-color: #5d748a;
+        transition:width 12s linear;
+    }
     .qz_circle {
         display: inline-block;
         width: 0.2rem;
@@ -117,27 +129,30 @@ body {
         text-align: center;
         position: relative;
     }
-
-    .qz_circle:after{
+    .qz_circle:after {
         content: "";
         width: 0.16rem;
         height: 0.03rem;
         background-color: #fff;
         display: block;
         position: absolute;
-        left:0.2rem;
-        top:0.09rem;
+        left: 0.2rem;
+        top: 0.09rem;
     }
-
-    .qz_circle:last-of-type:after{
+    .qz_circle:last-of-type:after {
         display: none;
     }
-
-    .qz_hover{
+    .qz_hover {
         background-color: #3f5a75;
-        color:#fff;
+        color: #fff;
     }
-
-
-
+    #qz_wrap {
+        height: 100%;
+        transition: all 0.5s ease-in-out;
+        transform:translateX(0);
+    }
+    .qz_item {
+        width: 3.75rem;
+        float: left;
+    }
 }

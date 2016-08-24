@@ -33,17 +33,8 @@
 <body>
     <div id="game_div">
         <div id="qz_level">
-            <!--<div id="circle"></div>-->
         </div>
-        <div id="qz_timer"></div>
-        <div id="qz_screen">
-            <div id="qz_content"></div>
-        </div>
-        <div id="qz_answer_wrap">
-            <!--<div id="answer"></div>-->
-        </div>
-        <div id="qz_board">
-            <!--<div id="box"></div>-->
+        <div id="qz_wrap">
         </div>
     </div>
     <script>
@@ -69,15 +60,15 @@
     ]
 
     var config = [{
-        "name": "法",
+        "name": "法拉利",
         "url": "assets/images/法拉利.png"
     }, {
-        "name": "马",
+        "name": "宝马",
         "url": "assets/images/宝马.png"
     }, {
-        "name": "可乐",
+        "name": "可口可乐",
         "url": "assets/images/可口可乐.png"
-    }, ]
+    }]
 
     //总关卡索引
     var T_index = 0;
@@ -105,22 +96,37 @@
 
 
     var Guess = function() {
+        this.timer = null;
         this.init()
     }
     Guess.prototype = {
 
         init: function() {
             this.initHtml();
+            this.initData();
             this.bindEvents();
+            this.gameStart();
         },
+
         // 绑定事件
         bindEvents: function() {
             // 给board下面的字绑定事件
             $("#game_div .qz_box").on("tap", function() {
 
                 var txt = $(this).text();
-                $($("#game_div .qz_answer")[index]).text(txt);
-                $($("#game_div .qz_answer")[index]).attr("x", $(this).index());
+                var item = $($("#game_div .qz_item")[T_index]);
+                // 
+                if ($(item.find('.qz_answer')[index]).text()) {
+                    // 说明该文本框原本存在字，需要先把该字复原然后再赋值
+                    var x = $(item.find('.qz_answer')[index]).attr("x");
+                    var t = $(item.find('.qz_answer')[index]).text();
+                    $(item.find(".qz_box")[x]).text(t);
+                    $(this).text("");
+                    $(this).attr("x", "")
+                }
+
+                $(item.find('.qz_answer')[index]).text(txt);
+                $(item.find('.qz_answer')[index]).attr("x", $(this).index());
                 index++;
                 $(this).text("")
 
@@ -128,20 +134,21 @@
 
             // 添加修改事件
             $("#game_div .qz_answer").on("tap", function() {
+                var item = $($("#game_div .qz_item")[T_index]);
                 var i = $(this).index();
                 var x = $(this).attr("x");
                 var txt = $(this).text();
-                $($("#game_div .qz_box")[x]).text(txt);
+                $(item.find(".qz_box")[x]).text(txt);
                 $(this).text("");
                 $(this).attr("x", "")
                 before = index;
                 index = i;
-
             })
 
             // 添加是否通过当前关卡判断
             $("#game_div .qz_box").on("tap", function() {
-                var dom_answer = $("#game_div .qz_answer");
+                var item = $($("#game_div .qz_item")[T_index]);
+                var dom_answer = item.find(".qz_answer");
                 var result = "";
                 dom_answer.forEach(function(v, i) {
                     result += $(v).text()
@@ -152,126 +159,144 @@
                     if (result == config[T_index].name) {
                         T_index++;
                         guess.good();
-                        setTimeout(guess.nextLevel,1000);
+                        guess.nextLevel();
                     } else {
                         guess.wrong();
                     }
                 }
-
-
             })
+
+            $("#game_div").on("touchmove", function(e) {
+                e.preventDefault();
+            });
         },
         // 初始化模版
         initHtml: function() {
 
-            // 生成随机字数组
-            var arr = my_ran2(24, 0, 99);
-            // 生成答案覆盖索引数组
-            var yep = my_ran2(config[T_index].name.length, 0, 23);
-            var name = config[T_index].name;
+            var wrap = $("#qz_wrap");
+            var len = config.length;
+            //动态改变父盒子的大小
+            wrap.css("width", len * 3.75 + "rem");
 
-            //动态生成board下面的文字块以及随机文字
-            for (var i = 0; i < 24; i++) {
-                $("#game_div #qz_board").append("<div class='qz_box'>" + str[arr[i]] + "</div>")
-            };
+            // 初始化模版，动态遍历题目配置项，生成对应的所有页面，后期答对题目只需要执行的就是改变当前的transform位置
+            wrap.append("<div class='qz_item'></div>");
+            var item = $("#game_div .qz_item");
+            item.append('<div class="qz_timer"><div class="qz_time"><span class="qz_progress"></span></div</div>')
+            item.append('<div class="qz_screen"><div class="qz_content"></div></div>');
+            item.append('<div class="qz_answer_wrap"></div>');
+            item.append('<div class="qz_board"></div>')
 
-            // 正确答案覆盖原文字
-            for (var i = 0, len = yep.length; i < len; i++) {
-                var y = yep[i];
-                var v = name[i];
-                $($("#game_div .qz_box")[y]).text(v);
+            //通关克隆，动态生成后面的页面，不知道性能如何
+            for (var i = 1; i < len; i++) {
+                var clone = item.clone();
+                wrap.append(clone);
             }
-
-            //动态生成答案块
-            for (var i = 0; i < name.length; i++) {
-                $("#game_div #qz_answer_wrap").append("<div class='qz_answer'></div>")
-            };
 
             //动态生成上方的关卡进度
             for (var i = 0; i < 10; i++) {
                 $("#game_div #qz_level").append("<div class='qz_circle'>" + (i + 1) + "</div>")
             };
-
             //高亮第一关
             $($("#game_div .qz_circle")[T_index]).addClass("qz_hover");
+        },
+        //填充数据
+        initData: function() {
 
-            //图片初始化
-            $("#qz_content").css("background-image", "url(" + config[T_index].url + ")");
+            for (var i = 0, len = config.length; i < len; i++) {
+                //获取当前页面的item
+                var item = $($("#game_div .qz_item")[i]);
+                // 生成随机字数组
+                var arr = my_ran2(24, 0, 99);
+                // 生成答案覆盖索引数组
+                var yep = my_ran2(config[i].name.length, 0, 23);
+                var name = config[i].name;
+
+
+                //动态生成board下面的文字块以及随机文字
+                for (var j = 0; j < 24; j++) {
+                    item.find(".qz_board").append("<div class='qz_box'>" + str[arr[j]] + "</div>")
+                };
+
+                // 正确答案覆盖原文字
+                for (var p = 0, leng = yep.length; p < leng; p++) {
+                    var y = yep[p];
+                    var v = name[p];
+                    $(item.find(".qz_box")[y]).text(v);
+                }
+
+                //动态生成答案块
+                for (var x = 0; x < name.length; x++) {
+                    item.find(".qz_answer_wrap").append("<div class='qz_answer'></div>")
+                };
+
+                //图片初始化
+                item.find(".qz_content").css("background-image", "url(" + config[i].url + ")");
+
+            }
+        },
+        //开始第一关
+        gameStart: function() {
+            var self = this;
+            //这里是否存在其方法优化此问题
+            setTimeout(function() {
+                $($('#game_div .qz_item')[0]).find('.qz_progress').css("width", "0");
+                self.gameTimer();
+            }, 0)
+        },
+        // 游戏的计时函数
+        gameTimer: function() {
+            if (this.timer) clearTimeout(this.timer);
+            //死亡计时器，每次过关则重置
+            this.timer=setTimeout(function(){
+                console.log("timeout");
+            },12000);
         },
         //错误
         wrong: function() {
-            $("#game_div #qz_answer_wrap").addClass("animated bounce");
+            var item = $($("#game_div .qz_item")[T_index]);
+            item.find(".qz_answer_wrap").addClass("animated bounce");
 
             // $("#game_div .qz_answer").css("color","red");
             //删除动画
             setTimeout(function() {
-                $("#game_div #qz_answer_wrap").removeClass("animated bounce");
-                $("#game_div .qz_answer").forEach(function(v) {
+                item.find(".qz_answer_wrap").removeClass("animated bounce");
+                item.find(".qz_answer").forEach(function(v) {
                     var x = $(v).attr("x");
                     var txt = $(v).text();
-                    $($("#game_div .qz_box")[x]).text(txt);
+                    $(item.find(".qz_box")[x]).text(txt);
                     $(v).text("");
                     $(v).attr("x", "");
-                    index=0
+                    index = 0
                 })
             }, 1000);
         },
         // 通关动画
-        good:function(){
+        good: function() {
 
         },
         // 通关后渲染下一关卡数据
         nextLevel: function() {
-            // 生成随机字数组
-            var arr = my_ran2(24, 0, 99);
-            var name = config[T_index].name;
-            // 生成答案覆盖索引数组
-            var yep = my_ran2(name.length, 0, 23);
 
             index = 0;
             before = 0;
-
-            //图片处理
-            $("#qz_content").css("background-image", "url(" + config[T_index].url + ")");
-
-
-            //答案块长度处理
-            $("#game_div #qz_answer_wrap").children().remove();
-            for (var i = 0; i < name.length; i++) {
-                $("#game_div #qz_answer_wrap").append("<div class='qz_answer'></div>")
-            };
-
-            // 添加修改事件
-            $("#game_div .qz_answer").on("tap", function() {
-                var i = $(this).index();
-                var x = $(this).attr("x");
-                var txt = $(this).text();
-                $($("#game_div .qz_box")[x]).text(txt);
-                $(this).text("");
-                $(this).attr("x", "")
-                before = index;
-                index = i;
-
-            })
-
-
-            // 选择区处理
-            $("#game_div .qz_box").forEach(function(v, i) {
-                $(v).text(str[arr[i]]);
-            })
-            for (var i = 0, len = name.length; i < len; i++) {
-                var y = yep[i];
-                var v = name[i];
-                $($("#game_div .qz_box")[y]).text(v);
-            }
 
             //关卡高亮
             $("#game_div .qz_circle").removeClass("qz_hover");
             $($("#game_div .qz_circle")[T_index]).addClass("qz_hover");
 
+            // 关卡平移动画
+            $("#qz_wrap").css("transform", "translateX(" + (-T_index * 3.75) + "rem)");
+
+            //关卡进度条动画
+            $($("#game_div .qz_progress")[T_index]).css("width","0");
+
+            // 关卡的计时函数
+            this.gameTimer();
+        },
+        // 游戏结束事件
+        gameOver:function(){
+
         }
-
-
     }
 
 
